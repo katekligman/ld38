@@ -6,10 +6,7 @@ class Map(object):
         self.name = name
         self.width = width
         self.height = height
-        self.terrains = []
-        self.creatures = []
-        self.hero = None
-        self.portals = []
+        self.sprite = dict()
 
     def draw(self, sprite):
         self.term.write_template(sprite.x, sprite.y, sprite.path)
@@ -23,55 +20,31 @@ class Map(object):
 
         self.draw(self.hero)
 
-        for s in self.terrains():
-            self.draw(s)
-        for s in self.creatures():
+        for s in self.sprites.values():
             self.draw(s)
 
-    def add_terrain(self, terrain):
+    def add_sprite(self, sprite):
 
-        if self.is_valid(terrain):
-            self.terrains.append(terrain)
+        if self.is_valid(sprite):
+            self.sprites[sprite.name] = sprite
         else:
             raise Exception("Cant add")
 
-        terrain.add_map(self)
+        sprite.add_map(self)
 
-    def add_creature(self, creature):
+    def remove(self, name):
 
-        if self.is_valid(creature):
-            self.creatures.append(creature)
-        else:
-            raise Exception("Cant add")
+        sprite = self.sprites.pop(name)
 
-        creature.add_map(self)
-
-    def add_portal(self, portal):
-        if self.is_valid(portal):
-            self.portals.append(portal)
-        else:
-            raise Exception("Cant add")
-
-        portal.add_map(self)
-
-    def add_hero(self, hero):
-
-        if self.is_valid(hero):
-            self.hero = hero
-        else:
-            raise Exception("Cant add")
-
-        hero.add_map(self)
-
-    def remove_hero(self):
-
-        for y1 in range(self.hero.y, self.hero.y + self.hero.height):
-            self.term.move(self.hero.x, y1)
-            self.term.write(' ' * self.hero.width)
-
-        self.hero = None
+        for y1 in range(sprite.y, sprite.y + sprite.height):
+            self.term.move(sprite.x, y1)
+            self.term.write(' ' * sprite.width)
 
     def is_valid(self, sprite):
+
+        # Check there isn't a name collision
+        if sprite.name in self.sprites:
+            return False
 
         # Checks if there's collision
         for t in self.terrains:
