@@ -14,6 +14,9 @@ class terminal(object):
     def __init__(self):
         self.input_buffer = ""
 
+    def cleanup(self):
+        subprocess.call("reset")
+
     @staticmethod
     def wrapper(main):
         # keep the original terminal attributes for cleanup
@@ -42,6 +45,18 @@ class terminal(object):
 
     def write(self, str):
         sys.stdout.write(str)
+
+    def has_input(self):
+        return len(self.input_buffer)
+
+    def block_read(self, total):
+        while True:
+            while not self.has_input():
+                self.poll_input()
+                if len(self.input_buffer) >= total:
+                    s = self.input_buffer[0:total]
+                    self.input_buffer = self.input_buffer[total:]
+                    return s
 
     def _read_input_buffer(self, total_chars = 1):
         if select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], []):
