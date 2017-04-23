@@ -2,7 +2,8 @@ from terminal import terminal
 import sys
 import select
 import tty
-import sprite
+from sprites import Sprite
+from map import Map
 import copy
 import glob
 import time
@@ -16,8 +17,12 @@ def wait_input(total):
 
 @terminal.wrapper
 def main(term):
-    tree = sprite.sprite(5, 5, "tree", "templates/tree_8x5.txt")
-    hero = sprite.sprite(3, 3, "hero", "templates/hero_10x9.txt")
+    tree = Sprite(20, 5, "tree", "templates/tree_8x5.txt")
+    hero = Sprite(3, 3, "hero", "templates/hero_10x9.txt")
+    map1 = Map("lvl1_map_basic", 80, 24, term)
+    map1.add_terrain(tree)
+    map1.add_hero(hero)
+
     items = []
 
     # start game
