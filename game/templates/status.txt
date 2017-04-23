@@ -1,0 +1,5 @@
+  Health: %(health)d
+   Cargo: %(cargo)d
+Supplies: %(supplies)d
+    Gold: %(gold)d
+    Fame: %(fame)d
