@@ -2,6 +2,34 @@ import re
 import terminal
 import sys
 
+class MoveMixin(object):
+
+    def move(self, x_delta, y_delta):
+
+        # NOTE this is only implemented for hero
+        new_self = self.__class__(
+            x=self.x + x_delta,
+            y=self.y + y_delta,
+            name=self.name,
+            path=self.path
+        )
+
+        # Temporarily remove map from self since it's in limbo
+        map = self.map
+
+        self.map.pop_sprite(self.name)
+
+        if map.is_valid(new_self):
+            map.undraw(self)
+            map.add_sprite(new_self)
+            map.draw(new_self)
+            return new_self
+        else:
+            # Add map back to self because it still exists in map
+            map.add_sprite(self)
+            return self
+
+
 class Sprite(object):
 
     classtype = "sprite"
@@ -59,7 +87,7 @@ class Portal(Sprite):
 
     classtype = "portal"
 
-class Creature(Sprite):
+class Creature(Sprite, MoveMixin):
 
     classtype = "creature"
 
@@ -67,32 +95,6 @@ class Terrain(Sprite):
 
     classtype = "terrain"
 
-class Hero(Sprite):
+class Hero(Sprite, MoveMixin):
 
     classtype = "hero"
-
-    def move(self, x_delta, y_delta):
-
-        # NOTE this is only implemented for hero
-        new_self = self.__class__(
-            x=self.x + x_delta,
-            y=self.y + y_delta,
-            name=self.name,
-            path=self.path
-        )
-
-        # Temporarily remove map from self since it's in limbo
-        map = self.map
-
-        self.map.pop_sprite(self.name)
-
-        if map.is_valid(new_self):
-            map.undraw(self)
-            map.add_sprite(new_self)
-            map.draw(new_self)
-            return new_self
-        else:
-            # Add map back to self because it still exists in map
-            map.add_sprite(self)
-            return self
-
