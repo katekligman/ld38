@@ -2,7 +2,7 @@ import re
 import terminal
 import sys
 
-class sprite(object):
+class Sprite(object):
     def __init__(self, x, y, name, path):
         self.x = x
         self.y = y
@@ -26,9 +26,10 @@ class sprite(object):
         self.map = map
 
     def check_collision(self, sprite):
-
+        # NOTE this is not commutative.
+        # Only run with objects already in map
         if self.map is None:
-            return True
+            return False
 
         hero_left = self.x
         hero_right = self.x + self.width
@@ -63,6 +64,7 @@ class sprite(object):
         if self.map.is_valid(new_self):
             self.map.remove_hero()
             self.map.add_hero(new_self)
+            self.map.draw(new_self)
             return new_self
         else:
             # Add map back to self because it still exists in map

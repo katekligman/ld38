@@ -14,6 +14,20 @@ class Map(object):
     def draw(self, sprite):
         self.term.write_template(sprite.x, sprite.y, sprite.path)
 
+    def render(self):
+        """
+        This draws everything over again
+        """
+
+        self.term.clear()
+
+        self.draw(self.hero)
+
+        for s in self.terrains():
+            self.draw(s)
+        for s in self.creatures():
+            self.draw(s)
+
     def add_terrain(self, terrain):
 
         if self.is_valid(terrain):
@@ -21,8 +35,7 @@ class Map(object):
         else:
             raise Exception("Cant add")
 
-        self.terrain.add_map(self)
-        self.draw(terrain)
+        terrain.add_map(self)
 
     def add_creature(self, creature):
 
@@ -31,8 +44,7 @@ class Map(object):
         else:
             raise Exception("Cant add")
 
-        self.creature.add_map(self)
-        self.draw(creature)
+        creature.add_map(self)
 
     def add_portal(self, portal):
         if self.is_valid(portal):
@@ -40,8 +52,7 @@ class Map(object):
         else:
             raise Exception("Cant add")
 
-        self.portal.add_map(self)
-        self.draw(portal)
+        portal.add_map(self)
 
     def add_hero(self, hero):
 
@@ -50,8 +61,7 @@ class Map(object):
         else:
             raise Exception("Cant add")
 
-        self.hero.add_map(self)
-        self.draw(hero)
+        hero.add_map(self)
 
     def remove_hero(self):
 
@@ -65,14 +75,14 @@ class Map(object):
 
         # Checks if there's collision
         for t in self.terrains:
-            if sprite.check_collision(t):
+            if t.check_collision(sprite):
                 return False
 
         for c in self.creatures:
-            if sprite.check_collision(c):
+            if c.check_collision(sprite):
                 return False
 
-        if self.hero and sprite.check_collision(self.hero):
+        if self.hero and self.hero.check_collision(sprite):
             return False
 
         if not self.in_map(sprite):
