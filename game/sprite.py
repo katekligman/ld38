@@ -8,6 +8,8 @@ class sprite(object):
         self.y = y
         self.name = name
         self.path = path
+        self.map = None
+
         p = re.compile('.*?(\d+)x(\d+).txt')
         m = p.match(path)
         if m:
@@ -16,7 +18,18 @@ class sprite(object):
         else:
             raise
 
+    def add_map(self, map):
+
+        if self.map is not None:
+            raise Exception("sprite already has map")
+
+        self.map = map
+
     def check_collision(self, sprite):
+
+        if self.map is None:
+            return True
+
         hero_left = self.x
         hero_right = self.x + self.width
         hero_top = self.y
@@ -34,22 +47,24 @@ class sprite(object):
             return True
         return False
 
+    def move(self, x_delta, y_delta):
 
-    def debug(self, term):
-        term.move(70, 1)
-        term.write("X: " + str(self.x))
-        term.move(70, 2)
-        term.write("Y: " + str(self.y))
-        term.move(70, 3)
-        term.write("W: " + str(self.width))
-        term.move(70, 4)
-        term.write("H: " + str(self.height))
+        # NOTE this is only implemented for hero
+        new_self = self.__class__(
+            x=self.x + x_delta,
+            y=self.y + y_delta,
+            name=self.name,
+            path=self.path,
+            map=self.map
+        )
 
-    def draw(self, term, x, y):
-        for y1 in range(self.y, self.y+self.height):
-            term.move(self.x, y1)
-            term.write(' ' * self.width)
-
-        self.x = x
-        self.y = y
-        term.write_template(self.x, self.y, self.path)
+        # Temporarily remove map from self since it's in limbo
+        self.map = None
+        if self.map.is_valid(new_self):
+            self.map.remove_hero()
+            self.map.add_hero(new_self)
+            return new_self
+        else:
+            # Add map back to self because it still exists in map
+            self.map = new_self.map
+            return self
