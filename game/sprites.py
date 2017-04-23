@@ -3,6 +3,9 @@ import terminal
 import sys
 
 class Sprite(object):
+
+    classtype = "sprite"
+
     def __init__(self, x, y, name, path):
         self.x = x
         self.y = y
@@ -48,6 +51,22 @@ class Sprite(object):
             return True
         return False
 
+class Portal(Sprite):
+
+    classtype = "portal"
+
+class Creature(Sprite):
+
+    classtype = "creature"
+
+class Terrain(Sprite):
+
+    classtype = "terrain"
+
+class Hero(Sprite):
+
+    classtype = "hero"
+
     def move(self, x_delta, y_delta):
 
         # NOTE this is only implemented for hero
@@ -62,11 +81,12 @@ class Sprite(object):
         # Temporarily remove map from self since it's in limbo
         self.map = None
         if self.map.is_valid(new_self):
-            self.map.remove_hero()
-            self.map.add_hero(new_self)
+            self.map.remove(self)
+            self.map.add_sprite(new_self)
             self.map.draw(new_self)
             return new_self
         else:
             # Add map back to self because it still exists in map
             self.map = new_self.map
             return self
+
