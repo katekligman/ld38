@@ -2,7 +2,7 @@ from terminal import terminal
 import sys
 import select
 import tty
-from sprites import Sprite
+from sprites import Terrain, Hero, Creature, Portal
 from map import Map
 import copy
 import glob
@@ -10,11 +10,11 @@ import time
 
 @terminal.wrapper
 def main(term):
-    tree = Sprite(20, 5, "tree", "templates/tree_8x5.txt")
-    hero = Sprite(3, 3, "hero", "templates/hero_10x9.txt")
+    tree = Terrain(20, 5, "tree", "templates/terrain/tree_8x5.txt")
+    hero = Hero(3, 3, "hero", "templates/creatures/hero_10x9.txt")
     map1 = Map("lvl1_map_basic", 80, 24, term)
-    map1.add_terrain(tree)
-    map1.add_hero(hero)
+    map1.add_sprite(tree)
+    map1.add_sprite(hero)
 
     items = []
 
@@ -23,7 +23,7 @@ def main(term):
     term.write_template(0, 0, "templates/80x24_blank.txt")
     term.write_template(10, 10, "templates/want_ad.txt")
     str = term.block_read(1)
-    term.clear()
+    map1.render()
     term.move(0,0)
 
     mx, my = hero.x, hero.y
@@ -35,27 +35,16 @@ def main(term):
             break
 
         if chr == terminal.KEY_LEFT:
-            if not test_collide(hero, 1, 0, items):
-                if mx < (80 - hero.width):
-                    mx += 1
+            hero = hero.move(-1, 0)
 
         if chr == terminal.KEY_RIGHT:
-            if not test_collide(hero, -1, 0, items):
-                if mx > 1:
-                    mx -= 1
+            hero = hero.move(1, 0)
 
-            if chr == terminal.KEY_DOWN:
-                if not test_collide(hero, 0, -1, items):
-                    if my > 1:
-                        my -= 1
+        if chr == terminal.KEY_DOWN:
+            hero = hero.move(0, 1)
 
-            if chr == terminal.KEY_UP:
-                if not test_collide(hero, 0, 1, items):
-                    if my < (24 - hero.height):
-                        my += 1
-        mx = abs(mx)
-        my = abs(my)
-        term.write("MX: %d, MY: %d\r\n" % (mx, my))
+        if chr == terminal.KEY_UP:
+            hero = hero.move(0, -1)
 
     # exit the game
     term.cleanup()

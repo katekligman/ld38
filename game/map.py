@@ -6,7 +6,7 @@ class Map(object):
         self.name = name
         self.width = width
         self.height = height
-        self.sprite = dict()
+        self.sprites = dict()
 
     def draw(self, sprite):
         self.term.write_template(sprite.x, sprite.y, sprite.path)
@@ -17,8 +17,6 @@ class Map(object):
         """
 
         self.term.clear()
-
-        self.draw(self.hero)
 
         for s in self.sprites.values():
             self.draw(s)
@@ -32,9 +30,13 @@ class Map(object):
 
         sprite.add_map(self)
 
-    def remove(self, name):
-
+    def pop_sprite(self, name):
         sprite = self.sprites.pop(name)
+        sprite.remove_map()
+
+        return sprite
+
+    def undraw(self, sprite):
 
         for y1 in range(sprite.y, sprite.y + sprite.height):
             self.term.move(sprite.x, y1)
@@ -47,16 +49,9 @@ class Map(object):
             return False
 
         # Checks if there's collision
-        for t in self.terrains:
-            if t.check_collision(sprite):
+        for s in self.sprites.values():
+            if s.check_collision(sprite):
                 return False
-
-        for c in self.creatures:
-            if c.check_collision(sprite):
-                return False
-
-        if self.hero and self.hero.check_collision(sprite):
-            return False
 
         if not self.in_map(sprite):
             return False

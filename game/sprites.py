@@ -28,6 +28,10 @@ class Sprite(object):
 
         self.map = map
 
+    def remove_map(self):
+
+        self.map = None
+
     def check_collision(self, sprite):
         # NOTE this is not commutative.
         # Only run with objects already in map
@@ -74,19 +78,21 @@ class Hero(Sprite):
             x=self.x + x_delta,
             y=self.y + y_delta,
             name=self.name,
-            path=self.path,
-            map=self.map
+            path=self.path
         )
 
         # Temporarily remove map from self since it's in limbo
-        self.map = None
-        if self.map.is_valid(new_self):
-            self.map.remove(self)
-            self.map.add_sprite(new_self)
-            self.map.draw(new_self)
+        map = self.map
+
+        self.map.pop_sprite(self.name)
+
+        if map.is_valid(new_self):
+            map.undraw(self)
+            map.add_sprite(new_self)
+            map.draw(new_self)
             return new_self
         else:
             # Add map back to self because it still exists in map
-            self.map = new_self.map
+            map.add_sprite(self)
             return self
 
