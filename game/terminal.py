@@ -2,26 +2,35 @@ import sys
 import tty
 import termios
 import subprocess
+import select
 
 class terminal(object):
-    def __init__(self):
-        self.terminfo_orig = termios.tcgetattr(sys.stdin)
+    KEY_RIGHT = "\x1b[C" 
+    KEY_LEFT = "\x1b[D" 
+    KEY_UP = "\x1b[A" 
+    KEY_DOWN = "\x1b[B" 
+    KEYS = [KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN]
 
-    def cleanup(self, term=None):
-        if term == None:
-	        term = self
-        termios.tcsetattr(sys.stdin, termios.TCSANOW, term.terminfo_orig)
-       # term.clear()
-        #subprocess.call("reset")
+    def __init__(self):
+        self.input_buffer = ""
 
     @staticmethod
     def wrapper(main):
-        tty.setcbreak(sys.stdin.fileno())
+        # keep the original terminal attributes for cleanup
+        terminfo_orig = termios.tcgetattr(sys.stdin)
+        # new terminal settings 
+        settings_new = termios.tcgetattr(sys.stdin)
+        settings_new[3] = settings_new[3] & ~(termios.ECHO | termios.ICANON)
+        settings_new[6][termios.VMIN] = 0
+        settings_new[6][termios.VTIME] = 0
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings_new)
+        #tty.setcbreak(sys.stdin.fileno())
         term = terminal().clear()
         try:
             main(term)
         except:            
-            terminal.cleanup(term)
+            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, terminfo_orig)
+            subprocess.call("reset")
             raise
 
     def clear(self):
@@ -34,6 +43,36 @@ class terminal(object):
     def write(self, str):
         sys.stdout.write(str)
 
+    def _read_input_buffer(self, total_chars = 1):
+        if select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], []):
+            s = sys.stdin.read(3)
+            s = str(s)
+            self.input_buffer += s
+
+    def poll_input(self):
+        self._read_input_buffer(1)
+    
+    def read_char(self):
+        # Nothing available
+        if len(self.input_buffer) == 0:
+            return ""
+
+        # arrow keys
+        for key in terminal.KEYS:
+            if self.input_buffer[0:3] == key:
+                self.input_buffer = self.input_buffer[len(key):]
+                return key
+
+        char = self.input_buffer[0]
+        if char != '\x33' and char != '[':
+            self.input_buffer = self.input_buffer[1:]
+            return char
+
+        return ''
+
+    def _flush_input_buffer(self):
+        self.input_buffer = []
+
     def write_template(self, x, y, path, vars = {}):
        with open(path, 'r') as f:
         i = y
@@ -42,4 +81,3 @@ class terminal(object):
             self.move(x, i)
             self.write(line % vars)
             i += 1
-
