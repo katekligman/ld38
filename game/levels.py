@@ -58,6 +58,7 @@ class Level(object):
                 self.hero = self.hero.move(0, -1)
 
             if self.is_level_won():
+                raise Exception("Still need to check hero backpack is empty")
                 return True
 
         self.term.flush()
@@ -96,10 +97,10 @@ class Level(object):
             else:
                 next_portal = None
             self.maps.append(map)
-    
+
         self.maps[0].add_sprite(self.hero)
 
-        for m in self.maps:
+        for j, m in enumerate(self.maps):
             for i in self.max_monsters:
                 while True:
                     x = random.randint(5, 65)
@@ -108,7 +109,7 @@ class Level(object):
                         monster_class_name = random.choice(self.monsters)
                         module = __import__('sprites')
                         dyn_class = getattr(module, monster_class_name)
-                        s = dyn_class(x, y, monster_class_name + str(i))
+                        s = dyn_class(x, y, monster_class_name + str(j) + '-' + str(i))
 
                         home = random.choice(self.maps).name
                         while home == m.name:
