@@ -1,3 +1,4 @@
+from terminal import terminal
 import configparser
 from map import Map
 from sprites import *
@@ -23,8 +24,46 @@ class Level(object):
         self.intro_template = self.config['Level ' + n]['intro']
         self.summary_template = self.config['Level ' + n]['summary']
 
+        self.load_level()
+
     def start_level(self):
+
+        # Show the intro story
+        self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
+        self.term.write_template(25, 6, self.intro_template)
+        self.term.read_char() 
+
         self.maps[0].render()
+
+        # begin level
+        self.term.move(0,0)
+        while True:
+            self.term.poll_input()
+            chr = self.term.read_char() 
+
+            if chr == 'q':
+                self.term.clear()
+                return False
+
+            if chr == self.term.KEY_LEFT:
+                self.hero = self.hero.move(-1, 0)
+
+            if chr == self.term.KEY_RIGHT:
+                self.hero = self.hero.move(1, 0)
+
+            if chr == self.term.KEY_DOWN:
+                self.hero = self.hero.move(0, 1)
+
+            if chr == self.term.KEY_UP:
+                self.hero = self.hero.move(0, -1)
+
+        self.term.flush()
+        self.term.clear()
+        # Show the summary
+        self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
+        self.term.write_template(25, 6, self.summary_template)
+        self.term.block_read(1) 
+        return True
 
     def load_level(self):
 
@@ -64,7 +103,7 @@ class Level(object):
                         map.add_sprite(s)
                         break
                     except:
-                        print(sys.exc_info()[0])
+                        print(sys.exc_info()[1])
                         continue
 
 

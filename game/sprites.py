@@ -126,7 +126,7 @@ class Slime(Creature):
     # Doesnt move
     pass
 
-class Spider(Creature):
+class Scorpion(Creature):
 
     def act(self):
         go_right = bool(random.getrandbits(1))

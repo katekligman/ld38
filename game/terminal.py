@@ -87,6 +87,9 @@ class terminal(object):
 
     def _flush_input_buffer(self):
         self.input_buffer = []
+    
+    def flush(self):
+        self._flush_input_buffer()
 
     def write_template(self, x, y, path, vars = {}):
        with open(path, 'r') as f:
