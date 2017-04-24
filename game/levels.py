@@ -2,6 +2,7 @@ from terminal import terminal
 import configparser
 from map import Map
 from sprites import *
+from status import Status
 
 class Level(object):
 
@@ -11,6 +12,7 @@ class Level(object):
         self.term = term
         self.hero = Hero(5, 15, "hero")
         self.hero.level = self
+        self.status = None
         self.is_won = False
 
         # Load levels.ini from the main game folder
@@ -90,6 +92,7 @@ class Level(object):
                 map.add_sprite(portal)
             else:
                 next_portal = None
+            map.add_sprite(Status(60, 1, 20, 23, self.term,"status" +str(i+1), self.hero))
             self.maps.append(map)
 
         self.maps[0].add_sprite(self.hero)

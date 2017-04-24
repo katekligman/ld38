@@ -1,18 +1,20 @@
 from sprites import Creature
+from sprites import Sprite
 
-class Status(object):
+class Status(Sprite):
 
-    def __init__(self, x, y, width, height, term, map, hero):
+    def __init__(self, x, y, width, height, term, name, hero):
 
+        self.map = None
         self.term = term
-        self.map = map
         self.hero = hero
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.name = name
 
-    def render(self):
+    def draw(self):
         """
         This draws everything over again
         """
@@ -37,8 +39,8 @@ class Status(object):
 
         self.term.move(self.x, current_y)
         self.term.write("Your backpack:")
-        current_y += 1
         for key in self.hero.backpack:
             for creature in self.hero.backpack[key]:
-                self.term.write("    -" + creature.name)
                 current_y += 1
+                self.term.move(self.x, current_y)
+                self.term.write("    -" + creature.name)

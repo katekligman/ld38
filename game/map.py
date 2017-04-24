@@ -19,7 +19,10 @@ class Map(object):
 
     def draw(self, sprite):
         note = self.number
-        self.term.write_template(sprite.x, sprite.y, sprite.path, note)
+        if hasattr(sprite, 'draw'):
+            sprite.draw()
+        else:
+            self.term.write_template(sprite.x, sprite.y, sprite.path, note)
 
     def act(self):
         current_time = time.time()
