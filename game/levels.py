@@ -102,7 +102,7 @@ class Level(object):
     
         self.maps[0].add_sprite(self.hero)
 
-        for map in self.maps:
+        for m in self.maps:
             for i in self.max_monsters:
                 while True:
                     x = random.randint(5, 65)
@@ -112,9 +112,12 @@ class Level(object):
                         module = __import__('sprites')
                         dyn_class = getattr(module, monster_class_name)
                         s = dyn_class(x, y, monster_class_name + str(i))
-                        #s.set_home_map(random.choice(self.maps).name)
-                        s.set_home_map(map.name)
-                        map.add_sprite(s)
+
+                        home = random.choice(self.maps).name
+                        while home != m.name:
+                            home = random.choice(self.maps).name
+                        s.set_home_map(home)
+                        m.add_sprite(s)
                         break
                     except:
                         print(sys.exc_info()[1])
