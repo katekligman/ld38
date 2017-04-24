@@ -6,7 +6,16 @@ def default_collision_callback(sprite1, sprite2, map):
 
 def creature_hero_collision_callback(creature, hero, map):
 
-    raise Exception("hero collided")
+    # Only one sprite is removed from map
+    # If it's the hero, then we also have to remove creature
+    # from map
+    if hero.map is None:
+        map.add_sprite(hero)
+        map.pop_sprite(creature.name)
+
+    map.undraw(creature)
+
+    hero.grab(creature)
 
 def hero_portal_collision_callback(hero, portal, map):
 

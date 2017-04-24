@@ -2,6 +2,7 @@ import re
 import terminal
 import sys
 import handlers
+import random
 
 class MoveMixin(object):
 
@@ -108,6 +109,50 @@ class Creature(Sprite, MoveMixin):
     classtype = "creature"
     collision_type = "creature"
 
+    def __init__(self, *args, **kwargs):
+
+        super(Creature, self).__init__(*args, **kwargs)
+
+        self.home_map = None
+
+    def set_home_map(self, name):
+        self.home_map = name
+
+class Slime(Creature):
+    # Doesnt move
+    pass
+
+class Spider(Creature):
+
+    def act(self):
+        go_right = bool(random.getrandbits(1))
+        go_down = bool(random.getrandbits(1))
+
+        x_delta = 1 if go_right else -1
+        y_delta = 1 if go_down else -1
+
+        self.move(x_delta, y_delta)
+
+class Ghost(Creature):
+
+    def act(self):
+        horizontal = bool(random.getrandbits(1))
+        movement = random.randint(-2, 2)
+        if horizontal:
+            self.move(movement, 0)
+        else:
+            self.move(0, movement)
+
+class Skeleton(Creature):
+
+    def act(self):
+        self.move(random.randint(-1, 1), random.randint(-1, 1))
+
+class Eyeball(Creature):
+
+    def act(self):
+        self.move(random.randint(-2, 2), 0)
+
 class Terrain(Sprite):
 
     classtype = "terrain"
@@ -117,3 +162,23 @@ class Hero(Sprite, MoveMixin):
 
     classtype = "hero"
     collision_type = "hero"
+
+    def __init__(self, *args, **kwargs):
+
+        super(Hero, self).__init__(*args, **kwargs)
+
+        self.backpack = dict()
+
+    def free(self):
+        """frees creatures from backpack"""
+
+        for creature in self.backpack[self.map.name]:
+            self.map.add_sprite(creature)
+            self.map.draw(creature)
+
+    def grab(self, creature):
+        # Assume the creature has already been removed from map
+        if creature.home_map in self.backpack:
+            self.backpack[creature.home_map].append(creature)
+        else:
+            self.backpack[creature.home_map] = [creature]

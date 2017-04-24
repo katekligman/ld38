@@ -2,7 +2,7 @@ from terminal import terminal
 import sys
 import select
 import tty
-from sprites import Terrain, Hero, Creature, Portal
+from sprites import Terrain, Hero, Portal, Slime, Spider, Ghost, Skeleton, Eyeball
 from map import Map
 import copy
 import glob
@@ -13,7 +13,7 @@ import random
 def main(term):
     #tree = Terrain(20, 5, "tree", "templates/terrain/tree_8x5.txt")
     hero = Hero(3, 20, "hero", "templates/creatures/hero_10x9.txt")
-    #eyeball = Creature(50, 5, "eyeball", "templates/creatures/eyeball_11x11.txt")
+    eyeball = Eyeball(50, 5, "eyeball", "templates/creatures/eyeball_11x11.txt")
     #birdman = Creature(30, 5, "birdman", "templates/creatures/birdman_10x16.txt")
     portal = Portal(30, 12, "portal", "templates/terrain/portal_8x8.txt")
     portal2 = Portal(20, 5, "portal2", "templates/terrain/portal_8x8.txt")
@@ -21,7 +21,7 @@ def main(term):
     portal2.add_to_portal(portal)
     map1 = Map("lvl1_map_basic", 80, 24, term)
     #map1.add_sprite(tree)
-    #map1.add_sprite(eyeball)
+    map1.add_sprite(eyeball)
     map1.add_sprite(hero)
     #map1.add_sprite(birdman)
     map1.add_sprite(portal)
@@ -40,7 +40,7 @@ def main(term):
     term.move(0,0)
 
     while True:
-
+        map1.act()
         term.poll_input()
         chr = term.read_char() 
 
