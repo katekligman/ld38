@@ -70,14 +70,11 @@ class Level(object):
         return True
 
     def is_level_won(self):
-        won = True
         for m in self.maps:
             for s in m.sprites.values():
-                for x in s.__class__.__bases__:
-                    if x.__name__ == 'Creature':
-                        if s.home_map != m.name:
-                            won = False
-        return won
+                if hasattr(s, "home_map") && s.home_map != m.name:
+                    return False
+        return True
 
     def load_level(self):
 
