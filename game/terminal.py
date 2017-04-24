@@ -97,5 +97,8 @@ class terminal(object):
         self.move(x, y)
         for line in f:
             self.move(x, i)
-            self.write(line % vars)
+            try:
+                self.write(line % vars)
+            except:
+                self.write(line)
             i += 1

@@ -1,14 +1,16 @@
 import time
 import random
+import sprites
 
 ACT_INTERVAL = .25
 
 class Map(object):
 
-    def __init__(self, name, width, height, term):
+    def __init__(self, name, width, height, term, number):
 
         self.term = term
         self.name = name
+        self.number = number
         self.width = width
         self.height = height
         self.sprites = dict()
@@ -16,7 +18,8 @@ class Map(object):
         self.last_acted_at = 0
 
     def draw(self, sprite):
-        self.term.write_template(sprite.x, sprite.y, sprite.path)
+        note = self.number
+        self.term.write_template(sprite.x, sprite.y, sprite.path, note)
 
     def act(self):
         current_time = time.time()
