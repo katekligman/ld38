@@ -51,7 +51,7 @@ class Sprite(object):
         self.collision_handler = handlers.collision_handler
         self.teleportation_handler = handlers.teleportation_handler
 
-        p = re.compile('.*?(\d+)x(\d+).txt')
+        p = re.compile('.*?(\d+)x(\d+)\.(txt|ansi)')
         m = p.match(path)
         if m:
             self.width = int(m.group(1))

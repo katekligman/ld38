@@ -11,31 +11,45 @@ import random
 
 @terminal.wrapper
 def main(term):
-    #tree = Terrain(20, 5, "tree", "templates/terrain/tree_8x5.txt")
+
+    # title screen
+    term.write_template(0, 5, "templates/title.txt")
+    term.block_read(1) # press almost any char to continue
+
+    term.clear()
+
+    # Load first story 
+    term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
+    term.write_template(25, 6, "templates/story1.txt")
+    term.block_read(1) # press almost any char to continue 
+
     hero = Hero(3, 20, "hero", "templates/creatures/hero_10x9.txt")
-    eyeball = Eyeball(50, 5, "eyeball", "templates/creatures/eyeball_11x11.txt")
-    #birdman = Creature(30, 5, "birdman", "templates/creatures/birdman_10x16.txt")
+
+    # Level 1 - Slime World
+
     portal = Portal(30, 12, "portal", "templates/terrain/portal_8x8.txt")
     portal2 = Portal(20, 5, "portal2", "templates/terrain/portal_8x8.txt")
     portal.add_to_portal(portal2)
     portal2.add_to_portal(portal)
-    map1 = Map("lvl1_map_basic", 80, 24, term)
-    #map1.add_sprite(tree)
-    map1.add_sprite(eyeball)
-    map1.add_sprite(hero)
-    #map1.add_sprite(birdman)
-    map1.add_sprite(portal)
 
+    map1 = Map("lvl1_map1_basic", 80, 24, term)
     map2 = Map("lvl1_map2_basic", 80, 24, term)
+    map1.add_sprite(hero)
+    map1.add_sprite(portal)
     map2.add_sprite(portal2)
 
-    items = []
+    for i in range(3):
+        while True:
+            x = random.randint(5, 65)
+            y = random.randint(3, 19)
+            try:
+                s = Slime(x, y, "slime" + str(i), "assets/ansi/slime_7x5.ansi")
+                map1.add_sprite(s)
+                break
+            except:
+                continue
 
     # start game
-    term.clear()
-    term.write_template(0, 0, "templates/80x24_blank.txt")
-    term.write_template(10, 10, "templates/want_ad.txt")
-    str = term.block_read(1)
     map1.render()
     term.move(0,0)
 
