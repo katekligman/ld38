@@ -3,6 +3,7 @@ import configparser
 from map import Map
 from sprites import *
 from status import Status
+import time
 
 class Level(object):
 
@@ -70,6 +71,8 @@ class Level(object):
         # Show the summary
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         self.term.write_template(25, 6, self.summary_template)
+        time.sleep(5)
+        self.term.flush()
         self.term.block_read(1) 
         return True
 
@@ -92,7 +95,8 @@ class Level(object):
                 map.add_sprite(portal)
             else:
                 next_portal = None
-            map.add_sprite(Status(60, 1, 20, 23, self.term,"status" +str(i+1), self.hero))
+            map.add_sprite(Status(55, 1, 20, 23, self.term, 
+                        "Dimension: " + str(i+1), self.hero))
             self.maps.append(map)
 
         self.maps[0].add_sprite(self.hero)

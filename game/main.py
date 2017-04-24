@@ -16,11 +16,13 @@ def main(term):
     # title screen
     term.write_template(0, 5, "templates/title.txt")
     term.block_read(1) # press almost any char to continue
+    term.flush()
 
     term.clear()
 
     lvl = 1
     while True:
+        term.flush()
         l = Level(lvl, term)
         if l.start_level() == False:
             break

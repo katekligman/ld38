@@ -22,7 +22,7 @@ class Status(Sprite):
         current_y = self.y
         # Render map name
         self.term.move(self.x, current_y)
-        self.term.write(self.map.name.upper())
+        self.term.write(self.name)
 
         # Render creature counts
         current_y += 3
@@ -32,7 +32,7 @@ class Status(Sprite):
         for creature in self.map.sprites.values():
             if isinstance(creature, Creature):
                 self.term.move(self.x, current_y)
-                self.term.write("    -" + creature.name)
+                self.term.write("    -" + str(creature.__class__.__name__))
                 current_y += 1
 
         current_y += 1

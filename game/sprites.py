@@ -108,6 +108,10 @@ class Portal(Sprite):
     def add_to_portal(self, portal):
         self.to_portal = portal
 
+    def draw(self):
+        note = str(self.map.number) + "=>" + str(self.to_portal.map.number)
+        self.map.term.write_template(self.x, self.y, self.path, note)
+
 class Creature(Sprite, MoveMixin):
 
     classtype = "creature"
