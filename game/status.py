@@ -43,4 +43,5 @@ class Status(Sprite):
             for creature in self.hero.backpack[key]:
                 current_y += 1
                 self.term.move(self.x, current_y)
-                self.term.write("    -" + creature.name)
+                name = creature.name.split('.')[0]
+                self.term.write("    -" + name)

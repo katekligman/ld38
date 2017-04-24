@@ -107,11 +107,12 @@ class Level(object):
                         monster_class_name = random.choice(self.monsters)
                         module = __import__('sprites')
                         dyn_class = getattr(module, monster_class_name)
-                        s = dyn_class(x, y, monster_class_name + str(j) + '-' + str(i))
 
                         home = random.choice(self.maps)
                         while home.name == m.name:
-                            home = random.choice(self.maps)
+                            index = random.randint(0,len(self.maps)-1)
+                            home = self.maps[index]
+                        s = dyn_class(x, y, monster_class_name + '-' + str(index + 1) +  '.' + str(j) + '-' + str(i))
                         s.set_home_map(home)
                         m.add_sprite(s)
                         break
