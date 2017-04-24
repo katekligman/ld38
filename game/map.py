@@ -23,9 +23,9 @@ class Map(object):
             sprite.draw()
         else:
             # to fix
-            note = "X"
-            #if hasattr(sprite, 'home_map'):
-            #    note = sprite.home_map.number
+            note = ""
+            if hasattr(sprite, 'home_map'):
+                note = sprite.home_map.number
             self.term.write_template(sprite.x, sprite.y, sprite.path, note)
 
     def act(self):

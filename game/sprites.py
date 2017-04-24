@@ -123,8 +123,8 @@ class Creature(Sprite, MoveMixin):
 
         self.home_map = None
 
-    def set_home_map(self, name):
-        self.home_map = name
+    def set_home_map(self, map):
+        self.home_map = map
 
 class Slime(Creature):
     # Doesnt move
@@ -191,7 +191,7 @@ class Hero(Sprite, MoveMixin):
 
     def grab(self, creature):
         # Assume the creature has already been removed from map
-        if creature.home_map in self.backpack:
-            self.backpack[creature.home_map].append(creature)
+        if creature.home_map.name in self.backpack:
+            self.backpack[creature.home_map.name].append(creature)
         else:
-            self.backpack[creature.home_map] = [creature]
+            self.backpack[creature.home_map.name] = [creature]
