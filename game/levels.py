@@ -57,8 +57,8 @@ class Level(object):
             if chr == self.term.KEY_UP:
                 self.hero = self.hero.move(0, -1)
 
-            #if self.is_level_won():
-            #    return True
+            if self.is_level_won():
+                return True
 
         self.term.flush()
         self.term.clear()
@@ -70,14 +70,11 @@ class Level(object):
         return True
 
     def is_level_won(self):
-        won = True
         for m in self.maps:
             for s in m.sprites.values():
-                for x in s.__class__.__bases__:
-                    if x.__name__ == 'Creature':
-                        if s.home_map != m.name:
-                            won = False
-        return won
+                if hasattr(s, "home_map") and s.home_map != m.name:
+                    return False
+        return True
 
     def load_level(self):
 
@@ -114,7 +111,7 @@ class Level(object):
                         s = dyn_class(x, y, monster_class_name + str(i))
 
                         home = random.choice(self.maps).name
-                        while home != m.name:
+                        while home == m.name:
                             home = random.choice(self.maps).name
                         s.set_home_map(home)
                         m.add_sprite(s)
