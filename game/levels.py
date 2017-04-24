@@ -57,8 +57,8 @@ class Level(object):
             if chr == self.term.KEY_UP:
                 self.hero = self.hero.move(0, -1)
 
-            #if self.is_level_won():
-            #    return True
+            if self.is_level_won():
+                return True
 
         self.term.flush()
         self.term.clear()
@@ -72,7 +72,7 @@ class Level(object):
     def is_level_won(self):
         for m in self.maps:
             for s in m.sprites.values():
-                if hasattr(s, "home_map") && s.home_map != m.name:
+                if hasattr(s, "home_map") and s.home_map != m.name:
                     return False
         return True
 
