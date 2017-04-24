@@ -29,7 +29,14 @@ class Status(Sprite):
 
         # Render creature counts
         current_y += 3
+        message = ["Boss : Get those", "buggers back", "to their home", "dimensions"]
+        self.term.move(self.x, current_y)
+        for line in message:
+            self.term.write(line)
+            current_y += 1
+            self.term.move(self.x, current_y)
 
+        current_y += 3
         self.term.move(self.x, current_y)
         self.term.write("Your backpack:")
         for key in self.hero.backpack:
