@@ -10,6 +10,7 @@ class Map(object):
 
         self.term = term
         self.name = name
+        self.pretty_name = "Dimension: " + str(number)
         self.number = number
         self.width = width
         self.height = height
@@ -18,10 +19,13 @@ class Map(object):
         self.last_acted_at = 0
 
     def draw(self, sprite):
-        note = self.number
         if hasattr(sprite, 'draw'):
             sprite.draw()
         else:
+            # to fix
+            note = "X"
+            #if hasattr(sprite, 'home_map'):
+            #    note = sprite.home_map.number
             self.term.write_template(sprite.x, sprite.y, sprite.path, note)
 
     def act(self):

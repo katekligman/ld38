@@ -11,6 +11,10 @@ class terminal(object):
     KEY_DOWN = "\x1b[B" 
     KEYS = [KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN]
 
+    ANSI_CURSOR_HIDE = "\033[?25l"
+    ANSI_CURSOR_SHOW = "\033[?25h"
+
+
     def __init__(self):
         self.input_buffer = ""
 
@@ -30,10 +34,12 @@ class terminal(object):
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings_new)
         #tty.setcbreak(sys.stdin.fileno())
         term = terminal().clear()
+        term.write(term.ANSI_CURSOR_HIDE)
         try:
             main(term)
         except:            
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, terminfo_orig)
+            term.write(term.ANSI_CURSOR_SHOW)
             subprocess.call("reset")
             raise
 
@@ -51,6 +57,7 @@ class terminal(object):
         return len(self.input_buffer)
 
     def block_read(self, total):
+        self.input_buffer = ""
         while True:
             while not self.has_input():
                 self.poll_input()
