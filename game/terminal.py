@@ -15,7 +15,8 @@ class terminal(object):
         self.input_buffer = ""
 
     def cleanup(self):
-        subprocess.call("reset")
+        pass
+        #subprocess.call("reset")
 
     @staticmethod
     def wrapper(main):
@@ -55,7 +56,7 @@ class terminal(object):
                 self.poll_input()
                 if len(self.input_buffer) >= total:
                     s = self.input_buffer[0:total]
-                    self.input_buffer = self.input_buffer[total:]
+                    self.input_buffer = ""
                     return s
 
     def _read_input_buffer(self, total_chars = 1):
