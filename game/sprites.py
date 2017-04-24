@@ -1,6 +1,7 @@
 import re
 import terminal
 import sys
+import handlers
 
 class MoveMixin(object):
 
@@ -20,10 +21,15 @@ class MoveMixin(object):
         self.map.pop_sprite(self.name)
 
         if map.is_valid(new_self):
-            map.undraw(self)
-            map.add_sprite(new_self)
-            map.draw(new_self)
-            return new_self
+            collision_sprite = map.is_collision(new_self)
+            if not collision_sprite:
+                map.undraw(self)
+                map.add_sprite(new_self)
+                map.draw(new_self)
+                return new_self
+            else:
+                self.collision_handler.trigger(self, collision_sprite, map)
+                return self
         else:
             # Add map back to self because it still exists in map
             map.add_sprite(self)
@@ -33,6 +39,7 @@ class MoveMixin(object):
 class Sprite(object):
 
     classtype = "sprite"
+    collision_type = "blocking"
 
     def __init__(self, x, y, name, path):
         self.x = x
@@ -40,6 +47,7 @@ class Sprite(object):
         self.name = name
         self.path = path
         self.map = None
+        self.collision_handler = handlers.collision_handler
 
         p = re.compile('.*?(\d+)x(\d+).txt')
         m = p.match(path)
@@ -86,15 +94,19 @@ class Sprite(object):
 class Portal(Sprite):
 
     classtype = "portal"
+    collision_type = "portal"
 
 class Creature(Sprite, MoveMixin):
 
     classtype = "creature"
+    collision_type = "creature"
 
 class Terrain(Sprite):
 
     classtype = "terrain"
+    collision_type = "blocking"
 
 class Hero(Sprite, MoveMixin):
 
     classtype = "hero"
+    collision_type = "hero"

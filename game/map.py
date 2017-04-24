@@ -23,7 +23,7 @@ class Map(object):
 
     def add_sprite(self, sprite):
 
-        if self.is_valid(sprite):
+        if self.is_valid(sprite) and not self.is_collision(sprite):
             self.sprites[sprite.name] = sprite
         else:
             raise Exception("Cant add")
@@ -42,16 +42,19 @@ class Map(object):
             self.term.move(sprite.x, y1)
             self.term.write(' ' * sprite.width)
 
+    def is_collision(self, sprite):
+        # Checks if there's collision
+        for s in self.sprites.values():
+            if s.check_collision(sprite):
+                return s
+
+        return False
+
     def is_valid(self, sprite):
 
         # Check there isn't a name collision
         if sprite.name in self.sprites:
             return False
-
-        # Checks if there's collision
-        for s in self.sprites.values():
-            if s.check_collision(sprite):
-                return False
 
         if not self.in_map(sprite):
             return False
