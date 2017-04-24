@@ -1,3 +1,6 @@
+def hero_map_change_teleportation_callback(hero, portal):
+    hero.free_creatures()
+
 def default_collision_callback(sprite1, sprite2, map):
     if sprite1.map is None:
         map.add_sprite(sprite1)
@@ -28,3 +31,4 @@ def hero_portal_collision_callback(hero, portal, map):
 
     new_map.add_sprite(hero)
     new_map.render()
+    hero.teleportation_handler.trigger("hero_map_change", hero, portal)

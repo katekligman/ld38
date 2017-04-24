@@ -39,13 +39,22 @@ class CollisionHandler(EventHandler):
 class TeleportationHandler(EventHandler):
     """
     Callback msut have as input : sprite, from_map, to_map, portal
-    Event types are just None
+    Event types are just "map_change"
     """
 
-    def trigger(self, sprite, from_map, to_map, portal):
+    def trigger(self, event_type, sprite, portal):
 
-        for callback in self.events.values():
-            callback(sprite, from_map, to_map, portal)
+        for callback in self.events[event_type]:
+            callback(sprite, portal)
+
+# Build Teleportation handler
+teleportation_handler = TeleportationHandler()
+for event in dir(events):
+    if event == "default_teleportation_callback":
+        teleportation_handler.add_default(getattr(events, "default_teleportation_callback"))
+    elif event.endswith("_teleportation_callback"):
+        event_type = event.replace("_teleportation_callback", "")
+        teleportation_handler.add_callback(event_type, getattr(events, event))
 
 # Build collision handler
 collision_handler = CollisionHandler()

@@ -49,6 +49,7 @@ class Sprite(object):
         self.path = path
         self.map = None
         self.collision_handler = handlers.collision_handler
+        self.teleportation_handler = handlers.teleportation_handler
 
         p = re.compile('.*?(\d+)x(\d+).txt')
         m = p.match(path)
@@ -169,8 +170,11 @@ class Hero(Sprite, MoveMixin):
 
         self.backpack = dict()
 
-    def free(self):
+    def free_creatures(self):
         """frees creatures from backpack"""
+
+        if self.map.name not in self.backpack:
+            return
 
         for creature in self.backpack[self.map.name]:
             self.map.add_sprite(creature)
