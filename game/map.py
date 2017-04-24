@@ -68,9 +68,17 @@ class Map(object):
 
     def undraw(self, sprite):
 
-        for y1 in range(sprite.y, sprite.y + sprite.height):
-            self.term.move(sprite.x, y1)
-            self.term.write(' ' * sprite.width)
+        self.undraw_coordinates(
+            sprite.x,
+            sprite.y,
+            sprite.width,
+            sprite.height
+        )
+
+    def undraw_coordinates(self, x, y, width, height):
+        for y1 in range(y, y + height):
+            self.term.move(x, y1)
+            self.term.write(' ' * width)
 
     def is_collision(self, sprite):
         # Checks if there's collision

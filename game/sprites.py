@@ -8,30 +8,32 @@ class MoveMixin(object):
 
     def move(self, x_delta, y_delta):
 
-        # NOTE this is only implemented for hero
-        new_self = self.__class__(
-            x=self.x + x_delta,
-            y=self.y + y_delta,
-            name=self.name,
-            path=self.path
-        )
-
         # Temporarily remove map from self since it's in limbo
         map = self.map
-
         self.map.pop_sprite(self.name)
+        self.x += x_delta
+        self.y += y_delta
 
-        if map.is_valid(new_self):
-            collision_sprite = map.is_collision(new_self)
+        if map.is_valid(self):
+            collision_sprite = map.is_collision(self)
             if not collision_sprite:
-                map.undraw(self)
-                map.add_sprite(new_self)
-                map.draw(new_self)
-                return new_self
+                map.undraw_coordinates(
+                    self.x - x_delta,
+                    self.y -y_delta,
+                    self.width,
+                    self.height
+                )
+                map.add_sprite(self)
+                map.draw(self)
+                return self
             else:
+                self.x -= x_delta
+                self.y -= y_delta
                 self.collision_handler.trigger(self, collision_sprite, map)
                 return self
         else:
+            self.x -= x_delta
+            self.y -= y_delta
             # Add map back to self because it still exists in map
             map.add_sprite(self)
             return self
@@ -179,6 +181,8 @@ class Hero(Sprite, MoveMixin):
         for creature in self.backpack[self.map.name]:
             self.map.add_sprite(creature)
             self.map.draw(creature)
+
+        self.backpack[self.map.name] = []
 
     def grab(self, creature):
         # Assume the creature has already been removed from map

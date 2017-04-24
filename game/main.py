@@ -23,7 +23,7 @@ def main(term):
     term.write_template(25, 6, "templates/story1.txt")
     term.block_read(1) # press almost any char to continue 
 
-    hero = Hero(3, 15, "hero", "assets/ansi/hero_5x5.ansi")
+    hero = Hero(5, 15, "hero", "assets/ansi/hero_5x5.ansi")
 
     # Level 1 - Slime World
 
@@ -44,6 +44,7 @@ def main(term):
             y = random.randint(3, 19)
             try:
                 s = Slime(x, y, "slime" + str(i), "assets/ansi/slime_7x5.ansi")
+                s.set_home_map(map2.name)
                 map1.add_sprite(s)
                 break
             except:
