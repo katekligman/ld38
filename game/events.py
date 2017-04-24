@@ -10,4 +10,12 @@ def creature_hero_collision_callback(creature, hero, map):
 
 def hero_portal_collision_callback(hero, portal, map):
 
-    raise Exception("hero at portal")
+    to_portal = portal.to_portal
+    new_map = to_portal.map
+
+    # Change x and y coordinates
+    hero.x = to_portal.x + hero.width
+    hero.y = to_portal.y
+
+    new_map.add_sprite(hero)
+    new_map.render()

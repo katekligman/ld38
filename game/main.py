@@ -11,17 +11,23 @@ import random
 
 @terminal.wrapper
 def main(term):
-    tree = Terrain(20, 5, "tree", "templates/terrain/tree_8x5.txt")
+    #tree = Terrain(20, 5, "tree", "templates/terrain/tree_8x5.txt")
     hero = Hero(3, 20, "hero", "templates/creatures/hero_10x9.txt")
-    eyeball = Creature(50, 5, "eyeball", "templates/creatures/eyeball_11x11.txt")
+    #eyeball = Creature(50, 5, "eyeball", "templates/creatures/eyeball_11x11.txt")
     #birdman = Creature(30, 5, "birdman", "templates/creatures/birdman_10x16.txt")
-    portal = Portal(30, 5, "portal", "templates/terrain/portal_8x8.txt")
+    portal = Portal(30, 12, "portal", "templates/terrain/portal_8x8.txt")
+    portal2 = Portal(20, 5, "portal2", "templates/terrain/portal_8x8.txt")
+    portal.add_to_portal(portal2)
+    portal2.add_to_portal(portal)
     map1 = Map("lvl1_map_basic", 80, 24, term)
-    map1.add_sprite(tree)
-    map1.add_sprite(eyeball)
+    #map1.add_sprite(tree)
+    #map1.add_sprite(eyeball)
     map1.add_sprite(hero)
     #map1.add_sprite(birdman)
     map1.add_sprite(portal)
+
+    map2 = Map("lvl1_map2_basic", 80, 24, term)
+    map2.add_sprite(portal2)
 
     items = []
 
@@ -33,14 +39,7 @@ def main(term):
     map1.render()
     term.move(0,0)
 
-    mx, my = hero.x, hero.y
-    last_moved_time = int(time.time() * 1000)
     while True:
-        current_time = int(time.time() * 1000)
-        if (current_time - last_moved_time) > 250:
-            eyeball = eyeball.move(random.randint(-1, 1), random.randint(-1, 1))
-            #birdman = birdman.move(random.randint(-1, 1), random.randint(-1, 1))
-            last_moved_time = int(time.time() * 1000)
 
         term.poll_input()
         chr = term.read_char() 

@@ -96,6 +96,13 @@ class Portal(Sprite):
     classtype = "portal"
     collision_type = "portal"
 
+    def __init__(self, *args, **kwargs):
+        self.to_portal = None
+        super(Portal, self).__init__(*args, **kwargs)
+
+    def add_to_portal(self, portal):
+        self.to_portal = portal
+
 class Creature(Sprite, MoveMixin):
 
     classtype = "creature"
