@@ -1,5 +1,15 @@
 def hero_map_change_teleportation_callback(hero, portal):
     hero.free_creatures()
+    hero.teleportation_handler.trigger("win_check", hero, portal)
+
+def win_check_teleportation_callback(hero, portal):
+    level = hero.level
+    win_check = True
+    for m in level.maps:
+        for s in m.sprites.values():
+            if hasattr(s, "home_map") and s.home_map != m.name:
+                win_check = False
+    level.is_won = win_check
 
 def default_collision_callback(sprite1, sprite2, map):
     if sprite1.map is None:

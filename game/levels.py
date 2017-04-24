@@ -10,6 +10,8 @@ class Level(object):
         self.maps = []
         self.term = term
         self.hero = Hero(5, 15, "hero")
+        self.hero.level = self
+        self.is_won = False
 
         # Load levels.ini from the main game folder
         self.config = configparser.ConfigParser()
@@ -57,8 +59,7 @@ class Level(object):
             if chr == self.term.KEY_UP:
                 self.hero = self.hero.move(0, -1)
 
-            if self.is_level_won():
-                raise Exception("Still need to check hero backpack is empty")
+            if self.is_won:
                 return True
 
         self.term.flush()
@@ -68,13 +69,6 @@ class Level(object):
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         self.term.write_template(25, 6, self.summary_template)
         self.term.block_read(1) 
-        return True
-
-    def is_level_won(self):
-        for m in self.maps:
-            for s in m.sprites.values():
-                if hasattr(s, "home_map") and s.home_map != m.name:
-                    return False
         return True
 
     def load_level(self):
