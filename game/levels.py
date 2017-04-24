@@ -63,18 +63,15 @@ class Level(object):
                 self.hero = self.hero.move(0, -1)
 
             if self.is_won:
+                self.term.flush()
+                self.term.clear()
+
+                # Show the summary
+                self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
+                self.term.write_template(25, 6, self.summary_template)
+                time.sleep(3)
+                self.term.block_read(1) 
                 return True
-
-        self.term.flush()
-        self.term.clear()
-
-        # Show the summary
-        self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
-        self.term.write_template(25, 6, self.summary_template)
-        time.sleep(5)
-        self.term.flush()
-        self.term.block_read(1) 
-        return True
 
     def load_level(self):
 
