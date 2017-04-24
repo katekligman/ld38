@@ -31,7 +31,7 @@ class Level(object):
         # Show the intro story
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         self.term.write_template(25, 6, self.intro_template)
-        self.term.read_char() 
+        self.term.block_read(1) 
 
         self.maps[0].render()
 
