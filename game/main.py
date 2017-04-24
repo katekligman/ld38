@@ -8,6 +8,7 @@ import copy
 import glob
 import time
 import random
+from levels import Level
 
 @terminal.wrapper
 def main(term):
@@ -23,39 +24,14 @@ def main(term):
     term.write_template(25, 6, "templates/story1.txt")
     term.block_read(1) # press almost any char to continue 
 
-    hero = Hero(5, 15, "hero", "assets/ansi/hero_5x5.ansi")
-
-    # Level 1 - Slime World
-
-    portal = Portal(30, 12, "portal", "templates/terrain/portal_8x8.txt")
-    portal2 = Portal(20, 5, "portal2", "templates/terrain/portal_8x8.txt")
-    portal.add_to_portal(portal2)
-    portal2.add_to_portal(portal)
-
-    map1 = Map("lvl1_map1_basic", 80, 24, term)
-    map2 = Map("lvl1_map2_basic", 80, 24, term)
-    map1.add_sprite(hero)
-    map1.add_sprite(portal)
-    map2.add_sprite(portal2)
-
-    for i in range(3):
-        while True:
-            x = random.randint(5, 65)
-            y = random.randint(3, 19)
-            try:
-                s = Slime(x, y, "slime" + str(i), "assets/ansi/slime_7x5.ansi")
-                s.set_home_map(map2.name)
-                map1.add_sprite(s)
-                break
-            except:
-                continue
+    l = Level(1, term)
+    l.load_level()
+    l.start_level()
 
     # start game
-    map1.render()
     term.move(0,0)
 
     while True:
-        map1.act()
         term.poll_input()
         chr = term.read_char() 
 
@@ -63,16 +39,16 @@ def main(term):
             break
 
         if chr == terminal.KEY_LEFT:
-            hero = hero.move(-1, 0)
+            l.hero = l.hero.move(-1, 0)
 
         if chr == terminal.KEY_RIGHT:
-            hero = hero.move(1, 0)
+            l.hero = l.hero.move(1, 0)
 
         if chr == terminal.KEY_DOWN:
-            hero = hero.move(0, 1)
+            l.hero = l.hero.move(0, 1)
 
         if chr == terminal.KEY_UP:
-            hero = hero.move(0, -1)
+            l.hero = l.hero.move(0, -1)
 
     # exit the game
     term.cleanup()

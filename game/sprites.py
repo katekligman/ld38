@@ -3,6 +3,7 @@ import terminal
 import sys
 import handlers
 import random
+import glob
 
 class MoveMixin(object):
 
@@ -44,17 +45,17 @@ class Sprite(object):
     classtype = "sprite"
     collision_type = "blocking"
 
-    def __init__(self, x, y, name, path):
+    def __init__(self, x, y, name):
         self.x = x
         self.y = y
         self.name = name
-        self.path = path
+        self.path = glob.glob("assets/ansi/" + self.__class__.__name__.lower() + "*.ansi")[0]
         self.map = None
         self.collision_handler = handlers.collision_handler
         self.teleportation_handler = handlers.teleportation_handler
 
         p = re.compile('.*?(\d+)x(\d+)\.(txt|ansi)')
-        m = p.match(path)
+        m = p.match(self.path)
         if m:
             self.width = int(m.group(1))
             self.height = int(m.group(2))
