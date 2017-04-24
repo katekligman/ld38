@@ -76,7 +76,7 @@ class Level(object):
         # Add maps and portals
         next_portal = None
         for i in range(0, self.level_num + 1):
-            map = Map('level_' + str(self.level_num) + '_map_' + str(i+1), 80, 24, self.term)
+            map = Map('level_' + str(self.level_num) + '_map_' + str(i+1), 80, 24, self.term, i+1)
 
             # Note: The first and last maps only have one portal
             if next_portal is not None:
