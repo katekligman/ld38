@@ -57,13 +57,27 @@ class Level(object):
             if chr == self.term.KEY_UP:
                 self.hero = self.hero.move(0, -1)
 
+            #if self.is_level_won():
+            #    return True
+
         self.term.flush()
         self.term.clear()
+
         # Show the summary
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         self.term.write_template(25, 6, self.summary_template)
         self.term.block_read(1) 
         return True
+
+    def is_level_won(self):
+        won = True
+        for m in self.maps:
+            for s in m.sprites.values():
+                for x in s.__class__.__bases__:
+                    if x.__name__ == 'Creature':
+                        if s.home_map != m.name:
+                            won = False
+        return won
 
     def load_level(self):
 
