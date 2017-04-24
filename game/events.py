@@ -7,7 +7,7 @@ def win_check_teleportation_callback(hero, portal):
     win_check = True
     for m in level.maps:
         for s in m.sprites.values():
-            if hasattr(s, "home_map") and s.home_map != m.name:
+            if hasattr(s, "home_map") and s.home_map.name != m.name:
                 win_check = False
     level.is_won = win_check
 
