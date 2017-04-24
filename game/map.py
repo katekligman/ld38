@@ -1,4 +1,5 @@
 import time
+import random
 
 ACT_INTERVAL = .25
 
@@ -38,10 +39,18 @@ class Map(object):
 
     def add_sprite(self, sprite):
 
-        if self.is_valid(sprite) and not self.is_collision(sprite):
-            self.sprites[sprite.name] = sprite
-        else:
-            raise Exception("Cant add")
+        if not self.is_valid(sprite):
+            raise Exception("Not valid!!")
+
+        while True:
+            if not self.is_collision(sprite):
+                self.sprites[sprite.name] = sprite
+                break
+            else:
+                # Hack to get sprite onto map. Random coordinates
+                sprite.x = random.randint(0, self.width)
+                sprite.y = random.randint(0, self.height)
+                continue
 
         if hasattr(sprite, "act"):
             self.active_sprites[sprite.name] = sprite
