@@ -77,14 +77,14 @@ class Sprite(object):
             return False
 
         hero_left = self.x
-        hero_right = self.x + self.width
+        hero_right = self.x + self.width -1
         hero_top = self.y
-        hero_bottom = self.y + self.height
+        hero_bottom = self.y + self.height -1
 
         sprite_left = sprite.x
-        sprite_right = sprite.x + sprite.width
+        sprite_right = sprite.x + sprite.width -1
         sprite_top = sprite.y
-        sprite_bottom = sprite.y + sprite.height
+        sprite_bottom = sprite.y + sprite.height -1
 
         if not (
             ((hero_right < sprite_left) or (hero_left > sprite_right)) or

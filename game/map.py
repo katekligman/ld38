@@ -48,8 +48,8 @@ class Map(object):
                 break
             else:
                 # Hack to get sprite onto map. Random coordinates
-                sprite.x = random.randint(0, self.width)
-                sprite.y = random.randint(0, self.height)
+                sprite.x = random.randint(0, self.width - sprite.width)
+                sprite.y = random.randint(0, self.height - sprite.height)
                 continue
 
         if hasattr(sprite, "act"):
@@ -93,7 +93,7 @@ class Map(object):
 
     def in_map(self, sprite):
 
-        if (0 <= sprite.x  and sprite.x <= self.width) and (0  <= sprite.y and sprite.y <= self.height):
+        if (0 <= sprite.x  and sprite.x + sprite.width <= self.width) and (0  <= sprite.y and sprite.y + sprite.height <= self.height):
             return True
 
         return False

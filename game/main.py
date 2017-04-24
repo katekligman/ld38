@@ -23,7 +23,7 @@ def main(term):
     term.write_template(25, 6, "templates/story1.txt")
     term.block_read(1) # press almost any char to continue 
 
-    hero = Hero(3, 20, "hero", "assets/ansi/hero_5x5.ansi")
+    hero = Hero(3, 15, "hero", "assets/ansi/hero_5x5.ansi")
 
     # Level 1 - Slime World
 

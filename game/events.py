@@ -26,7 +26,7 @@ def hero_portal_collision_callback(hero, portal, map):
     new_map = to_portal.map
 
     # Change x and y coordinates
-    hero.x = to_portal.x + hero.width
+    hero.x = to_portal.x + to_portal.width
     hero.y = to_portal.y
 
     new_map.add_sprite(hero)
