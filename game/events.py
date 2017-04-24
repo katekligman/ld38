@@ -1,5 +1,10 @@
+def update_status(hero):
+
+    hero.map.sprites["status"].draw()
+
 def hero_map_change_teleportation_callback(hero, portal):
     hero.free_creatures()
+    update_status(hero)
     hero.teleportation_handler.trigger("win_check", hero, portal)
 
 def win_check_teleportation_callback(hero, portal):
@@ -34,6 +39,8 @@ def creature_hero_collision_callback(creature, hero, map):
 
     map.undraw(creature)
     hero.grab(creature)
+
+    update_status(hero)
 
 def hero_portal_collision_callback(hero, portal, map):
 

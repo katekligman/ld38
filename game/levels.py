@@ -93,7 +93,7 @@ class Level(object):
             else:
                 next_portal = None
             map.add_sprite(Status(55, 1, 20, 23, self.term, 
-                        "Dimension: " + str(i+1), self.hero))
+                        "Dimension: " + str(i+1), "status", self.hero))
             self.maps.append(map)
 
         self.maps[0].add_sprite(self.hero)

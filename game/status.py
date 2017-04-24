@@ -3,7 +3,7 @@ from sprites import Sprite
 
 class Status(Sprite):
 
-    def __init__(self, x, y, width, height, term, name, hero):
+    def __init__(self, x, y, width, height, term, title, name, hero):
 
         self.map = None
         self.term = term
@@ -12,6 +12,7 @@ class Status(Sprite):
         self.y = y
         self.width = width
         self.height = height
+        self.title = title
         self.name = name
 
     def draw(self):
@@ -19,10 +20,12 @@ class Status(Sprite):
         This draws everything over again
         """
 
+        self.map.undraw(self)
+
         current_y = self.y
         # Render map name
         self.term.move(self.x, current_y)
-        self.term.write(self.name)
+        self.term.write(self.title)
 
         # Render creature counts
         current_y += 3
