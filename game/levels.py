@@ -85,8 +85,8 @@ class Level(object):
                 map.add_sprite(next_portal)
             # Otherwise two portals per map
             if i < self.level_num:
-                portal = Portal(30, 12, "portal" + str(i+1))
-                next_portal = Portal(20, 5, "portal" + str(i+1))
+                portal = Portal(45, 5, "portal" + str(i+1))
+                next_portal = Portal(6, 18, "portal" + str(i+1))
                 portal.add_to_portal(next_portal)
                 next_portal.add_to_portal(portal)
                 map.add_sprite(portal)
