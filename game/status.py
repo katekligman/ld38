@@ -50,7 +50,7 @@ class Status(Sprite):
         # Render creature counts
         current_y += 3
         self.term.move(self.x, current_y)
-        self.term.write("AOL Instant Message:")
+        self.term.write("ASWOL Instant Message:")
         current_y += 2
         message = random.choice(random_messages)
         self.term.move(self.x, current_y)
