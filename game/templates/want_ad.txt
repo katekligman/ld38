@@ -1,12 +1,10 @@
-BRAIGSLIST
+BRAIGSLIST :: WANTED AD
 
-WANTED
-
-A scientist to fix reality and close random portals 
-that are constantly being opened. Full health and dental
-provided. Bachleor's degree in quantum mechanics required.
-
-Must be willing to relocate to San Francisco.
+A warrior scientist to fix reality 
+by capturing creatures spilling out 
+of dimensional portals.  Health and 
+dental provided. Must be willing 
+to relocate to San Francisco.
 
 Take the job? (Y/Y)
 
