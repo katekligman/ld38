@@ -35,7 +35,7 @@ class Level(object):
 
         # Show the intro story
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
-        self.term.write_template(25, 6, self.intro_template)
+        self.term.write_template(15, 6, self.intro_template)
         self.term.block_read(1) 
 
         self.maps[0].render()
@@ -68,7 +68,7 @@ class Level(object):
 
                 # Show the summary
                 self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
-                self.term.write_template(25, 6, self.summary_template)
+                self.term.write_template(15, 6, self.summary_template)
                 time.sleep(3)
                 self.term.block_read(1) 
                 return True
