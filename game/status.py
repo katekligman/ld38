@@ -7,7 +7,7 @@ random_messages = [
     ["-Boss: Get those", "buggers back", "to their home", "dimensions"],
     ["-Boss: Are you", "almost done??"],
     ["-Boss: FYI, Your", "healthcare", "plan doesn't", "cover blackhole", "injuries!"],
-    ["-Boss: Watch", "for those", "space time tears", "it might mess with", "game mechanics"],
+    ["-Boss: Watch", "for those space", "time tears. It", "might mess with", "game mechanics"],
     ["-Boss: I'm", "starting a", "company softball", "league"],
     ["-Boss: You're", "required to take", "a 30-min", "lunch break"]
 ]
