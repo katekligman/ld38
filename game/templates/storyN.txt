@@ -1,0 +1,9 @@
+Welcome to endless mode!
+
+A random but increasingly difficult
+combination of levels and monsters.
+
+We're curious how far you get, as
+we've never playtested this far.
+
+Good luck!

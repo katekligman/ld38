@@ -1,1 +1,11 @@
-Summary template text for level 1
+Congratulations!
+
+You've completed your first assignemnt.
+And right on time, we've just received 
+a distress call from one of our more
+expendable clients. Scorpions, I think,
+we couldn't entirely make out what 
+happened to the last intern we sent. 
+Or our client.
+
+Well, go on now! Time is money!
