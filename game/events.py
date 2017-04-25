@@ -1,3 +1,5 @@
+import time
+
 def update_status(hero):
 
     hero.map.sprites["status"].draw()
@@ -15,6 +17,7 @@ def win_check_teleportation_callback(hero, portal):
             if hasattr(s, "home_map") and s.home_map.name != m.name:
                 win_check = False
     level.is_won = win_check
+    time.sleep(.5)
 
 def default_collision_callback(sprite1, sprite2, map):
     if sprite1.map is None:
