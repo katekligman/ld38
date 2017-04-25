@@ -3,6 +3,7 @@ import tty
 import termios
 import subprocess
 import select
+import time
 
 class terminal(object):
     KEY_RIGHT = "\x1b[C" 
@@ -59,7 +60,9 @@ class terminal(object):
     def block_read(self, total):
         self.input_buffer = ""
         while True:
+            time.sleep(100/1000.0)
             while not self.has_input():
+                time.sleep(100/1000.0)
                 self.poll_input()
                 if len(self.input_buffer) >= total:
                     s = self.input_buffer[0:total]
