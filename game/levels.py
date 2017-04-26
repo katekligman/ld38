@@ -44,7 +44,6 @@ class Level(object):
         # begin level
         self.term.move(0,0)
         while True:
-            time.sleep(10/1000.0)
             self.term.poll_input()
             chr = self.term.read_char() 
 
