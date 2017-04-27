@@ -2491,6 +2491,7 @@ purge_stale_locks (int game)
   char* dir;
   size_t len;
   short firsttime = 1;
+return true; // ld38
 
   dir = strdup(dgl_format_str(game, me, myconfig[game]->inprogressdir, NULL));
 
@@ -2955,10 +2956,17 @@ main (int argc, char** argv)
 
   idle_alarm_set_enabled(1);
 
+  struct dg_cmdpart cmd;
+  cmd.param1 = "NH343";
+  cmd.param2 = "";
+  cmd.cmd = DGLCMD_PLAYGAME;
+  dgl_exec_cmdqueue(&cmd, 1, me); 
+/* ld38
   while (1) {
       if (runmenuloop(dgl_find_menu(get_mainmenu_name())))
 	  break;
   }
+*/
 
   idle_alarm_set_enabled(0);
 

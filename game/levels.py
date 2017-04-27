@@ -36,6 +36,7 @@ class Level(object):
         # Show the intro story
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         self.term.write_template(15, 6, self.intro_template)
+        time.sleep(1)
         self.term.block_read(1) 
 
         self.maps[0].render()
@@ -69,6 +70,8 @@ class Level(object):
                 # Show the summary
                 self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
                 self.term.write_template(15, 6, self.summary_template)
+                self.term.flush()
+                self.term.clear()
                 time.sleep(5)
                 self.term.block_read(1) 
                 return True
@@ -101,6 +104,7 @@ class Level(object):
         for j, m in enumerate(self.maps):
             for i in self.max_monsters:
                 while True:
+                    time.sleep(10/1000.0)
                     x = random.randint(5, 65)
                     y = random.randint(3, 19)
                     try:
@@ -111,6 +115,7 @@ class Level(object):
                         index = random.randint(0,len(self.maps)-1)
                         home = self.maps[index]
                         while home.name == m.name:
+                            time.sleep(10/1000.0)
                             index = random.randint(0,len(self.maps)-1)
                             home = self.maps[index]
                         s = dyn_class(x, y, monster_class_name + '-' + str(index + 1) +  '.' + str(j) + '-' + str(i))
