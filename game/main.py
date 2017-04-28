@@ -17,25 +17,21 @@ def main(term):
     try:
         # title screen
         term.write_template(0, 5, "templates/title.txt")
-        time.sleep(1)
-        term.block_read(1)
+        term.wait_for_chars(' ')
         term.flush()
         term.clear()
 
         # want ad
         term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         term.write_template(20, 7, "templates/want_ad.txt")
-        time.sleep(1)
-        term.block_read(1)
+        term.wait_for_chars('Y,y')
         term.flush()
 
         # instructions
         term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         term.write_template(16, 7, "templates/instructions1.txt")
-        time.sleep(1)
-        term.block_read(1)
+        term.wait_for_chars(' ')
         term.flush()
-
         term.clear()
 
         lvl = 1

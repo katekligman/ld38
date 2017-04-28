@@ -57,6 +57,11 @@ class terminal(object):
     def has_input(self):
         return len(self.input_buffer)
 
+    def wait_for_chars(self, chars):
+        while sys.stdin.read(1) not in chars.split(','):
+            time.sleep(1/10)
+        return True
+
     def block_read(self, total):
         self.input_buffer = sys.stdin.read(total)
 

@@ -36,14 +36,14 @@ class Level(object):
         # Show the intro story
         self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
         self.term.write_template(15, 6, self.intro_template)
-        time.sleep(1)
-        self.term.block_read(1) 
+        self.term.wait_for_chars(' ')
 
         self.maps[0].render()
 
         # begin level
         self.term.move(0,0)
         while True:
+            time.sleep(1/1000)
             self.term.poll_input()
             chr = self.term.read_char() 
 
@@ -70,10 +70,9 @@ class Level(object):
                 # Show the summary
                 self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
                 self.term.write_template(15, 6, self.summary_template)
+                term.wait_for_chars(' ')
                 self.term.flush()
                 self.term.clear()
-                time.sleep(5)
-                self.term.block_read(1) 
                 return True
 
     def load_level(self):
