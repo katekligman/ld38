@@ -58,18 +58,9 @@ class terminal(object):
         return len(self.input_buffer)
 
     def block_read(self, total):
-        self.input_buffer = ""
-        while True:
-            time.sleep(100/1000.0)
-            while not self.has_input():
-                time.sleep(100/1000.0)
-                self.poll_input()
-                if len(self.input_buffer) >= total:
-                    s = self.input_buffer[0:total]
-                    self.input_buffer = ""
-                    return s
+        self.input_buffer = sys.stdin.read(total)
 
-    def _read_input_buffer(self, total_chars = 1):
+    def _read_input_buffer(self):
         while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
             time.sleep(1/1000.0)
             s = sys.stdin.read(3)
@@ -79,7 +70,7 @@ class terminal(object):
                 sys.exit(0)
 
     def poll_input(self):
-        self._read_input_buffer(1)
+        self._read_input_buffer()
     
     def read_char(self):
         # Nothing available
