@@ -71,7 +71,7 @@ class terminal(object):
 
     def _read_input_buffer(self, total_chars = 1):
         while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-            time.sleep(100/1000.0)
+            time.sleep(1/1000.0)
             s = sys.stdin.read(3)
             if s:
                 self.input_buffer += str(s)
