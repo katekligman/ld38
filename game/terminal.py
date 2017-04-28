@@ -96,7 +96,7 @@ class terminal(object):
         return ''
 
     def _flush_input_buffer(self):
-        self.input_buffer = []
+        self.input_buffer = ""
         sys.stdin.flush()
     
     def flush(self):
