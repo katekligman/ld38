@@ -70,7 +70,7 @@ class Level(object):
                 # Show the summary
                 self.term.write_template(0, 5, "assets/ansi/story_backdrop_80x24.ansi")
                 self.term.write_template(15, 6, self.summary_template)
-                term.wait_for_chars(' ')
+                self.term.wait_for_chars(' ')
                 self.term.flush()
                 self.term.clear()
                 return True
