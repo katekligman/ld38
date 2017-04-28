@@ -8,4 +8,4 @@ Touch the creatures to add them to
 your backpack. Then enter the
 designated portal to take them home.
 
--- Press any key to continue --
+-- Press space to continue --
