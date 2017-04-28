@@ -8,4 +8,4 @@ will be traveling between dimensions
 through exciting portals that look
 like caves.
 
--= Press any key to continue =-
+-- Press space to continue --
